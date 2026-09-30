@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PVI – Hoàn thành kế hoạch & tỷ lệ bồi thường theo sản phẩm 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,800;1,900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3f5fb; --panel:#ffffff; --panel2:#e9edf8; --line:#d3daea;
+  --ink:#0c1633; --muted:#5a6685; --orange:#e8590c; --orange2:#ff8a1f;
+  --blue:#1f4fd8; --good:#0f8a5f; --bad:#c9302c; --track:#dfe5f3;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0a1433; --panel:#101d47; --panel2:#152456; --line:#243a7a;
+    --ink:#f2f5ff; --muted:#93a3cf; --orange:#ff7a18; --orange2:#ffb03a;
+    --blue:#2f6bff; --good:#35d39a; --bad:#ff5d5d; --track:#132150;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0a1433; --panel:#101d47; --panel2:#152456; --line:#243a7a;
+  --ink:#f2f5ff; --muted:#93a3cf; --orange:#ff7a18; --orange2:#ffb03a;
+  --blue:#2f6bff; --good:#35d39a; --bad:#ff5d5d; --track:#132150;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Be Vietnam Pro",system-ui,"Segoe UI",Roboto,Arial,sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:40px 20px 24px}
+.tag{display:inline-block;background:var(--bad);color:#fff;font-weight:800;font-size:12px;letter-spacing:.08em;padding:5px 12px;border-radius:999px}
+.brand{font-weight:800;margin:10px 0 0;font-size:15px;color:var(--muted)}
+h1{margin:6px 0 0;font-style:italic;font-weight:900;line-height:.95;font-size:clamp(40px,8vw,84px);letter-spacing:-.02em}
+h1 .l2{display:block;background:linear-gradient(90deg,var(--orange),var(--orange2));-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.1em}
+.sprint{display:inline-block;margin-top:12px;background:var(--blue);color:#fff;font-style:italic;font-weight:900;font-size:clamp(18px,3vw,26px);padding:6px 22px;transform:skewX(-10deg)}
+.sprint span{display:inline-block;transform:skewX(10deg)}
+.lede{color:var(--muted);margin:14px 0 0;max-width:62ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:5px 12px;font-size:13px}
+.chip b{font-weight:700}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--good);margin-right:6px;vertical-align:1px}
+
+.track-wrap{margin-top:28px}
+.track{position:relative;height:34px;border:1px solid var(--line);border-radius:8px;background:var(--track);overflow:visible}
+.fill{position:absolute;inset:0 auto 0 0;width:0;border-radius:8px 0 0 8px;background:linear-gradient(90deg,transparent,var(--blue));transition:width 1.6s cubic-bezier(.2,.8,.2,1)}
+.car{position:absolute;top:50%;left:0;transform:translate(-60%,-50%);font-size:24px;transition:left 1.6s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
+.car svg{display:block;width:40px;height:22px}
+.flag{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:18px;height:26px;background:repeating-conic-gradient(var(--ink) 0 25%,var(--panel) 0 50%) 0 0/9px 9px;border-radius:2px}
+.timeline{position:absolute;top:-6px;bottom:-6px;width:2px;background:var(--orange)}
+.timeline span{position:absolute;top:-22px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:12px;color:var(--orange);font-weight:700}
+.track-legend{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:6px;gap:8px}
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi .k{font-size:13px;color:var(--muted)}
+.kpi .v{font-size:32px;font-weight:800;line-height:1.15;margin-top:2px}
+.kpi .s{font-size:12.5px;margin-top:2px;color:var(--muted)}
+.up{color:var(--bad)} .down{color:var(--good)} .pos{color:var(--good)}
+
+.ticker{margin-top:28px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--panel);overflow:hidden;white-space:nowrap}
+.ticker-in{display:inline-block;padding:10px 0;animation:tick 60s linear infinite}
+.ticker-in span{margin:0 28px;font-size:13.5px}
+.ticker-in b{color:var(--orange2)}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+h2{font-size:24px;font-weight:800;font-style:italic;margin:40px 0 4px}
+.sub{color:var(--muted);margin:0 0 16px;font-size:14px}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel)}
+.seg button{border:0;background:transparent;color:var(--ink);font:inherit;font-size:14px;font-weight:600;padding:8px 14px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--blue);color:#fff}
+.seg button:focus-visible,.search:focus-visible,.row:focus-visible{outline:3px solid var(--orange2);outline-offset:2px}
+.search{flex:1;min-width:180px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);font:inherit;font-size:14px;padding:8px 12px}
+
+.board{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.head,.row{display:grid;grid-template-columns:46px minmax(130px,1.3fr) minmax(160px,2fr) 110px 110px;align-items:center;gap:12px;padding:10px 16px}
+.head{font-size:12.5px;color:var(--muted);border-bottom:1px solid var(--line);background:var(--panel2)}
+.head .r,.row .r{text-align:right}
+.row{border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row.total{background:var(--panel2);font-weight:700}
+.rank{font-weight:800;font-style:italic;font-size:18px;color:var(--muted)}
+.row.top .rank{color:var(--orange)}
+.name{font-weight:600}
+.bar{position:relative;height:12px;background:var(--track);border-radius:6px}
+.bar i{position:absolute;inset:0 auto 0 0;border-radius:6px;background:var(--blue)}
+.bar i.hit{background:linear-gradient(90deg,var(--orange),var(--orange2))}
+.bar .goal{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink);opacity:.55}
+.barcell{display:flex;align-items:center;gap:10px}
+.barcell .bar{flex:1}
+.pct{font-weight:700;min-width:62px;text-align:right;font-variant-numeric:tabular-nums}
+.over{font-size:11px;font-weight:700;color:var(--orange)}
+.num{font-variant-numeric:tabular-nums;text-align:right}
+.loss{font-weight:700}
+.loss.hi{color:var(--bad)}
+.delta{display:block;font-size:12px;font-weight:500}
+.empty{padding:24px 16px;color:var(--muted)}
+
+.matrix{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;position:relative}
+.matrix svg{width:100%;height:auto;display:block}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:13px;padding:6px 10px;border-radius:8px;white-space:nowrap;opacity:0;transition:opacity .12s}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--muted);margin-top:8px;padding:0 6px}
+.picker{display:flex;align-items:center;gap:12px;margin-top:18px;flex-wrap:wrap}
+.picker label{font-weight:700;font-size:14px;color:var(--muted)}
+.prod{appearance:none;-webkit-appearance:none;font:inherit;font-weight:800;font-size:18px;color:var(--ink);background:var(--panel) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23ff7a18' stroke-width='2' fill='none'/%3E%3C/svg%3E") no-repeat right 14px center;border:2px solid var(--orange);border-radius:10px;padding:9px 40px 9px 14px;cursor:pointer;min-width:240px}
+.prod.small{font-size:14px;font-weight:700;padding:7px 36px 7px 12px;min-width:0;border-width:1px;border-color:var(--line)}
+.prod:focus-visible{outline:3px solid var(--orange2);outline-offset:2px}
+.sep{padding:8px 16px;font-size:12.5px;color:var(--muted);background:var(--panel2);border-bottom:1px solid var(--line)}
+.row.unr{opacity:.6}
+.place.none .step{opacity:.25}
+.notes{color:var(--muted);font-size:13px;margin-top:28px;border-top:1px solid var(--line);padding-top:14px}
+.notes p{margin:4px 0}
+
+
+.podiums{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.pcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 16px 0;overflow:hidden}
+.pcard h3{margin:0;font-size:17px;font-weight:800;font-style:italic}
+.pcard .hint{margin:2px 0 0;font-size:13px;color:var(--muted)}
+.podium{display:grid;grid-template-columns:1fr 1fr 1fr;align-items:end;gap:8px;margin-top:18px}
+.place{display:flex;flex-direction:column;align-items:center;text-align:center;min-width:0}
+.place .who{font-weight:700;font-size:14px;line-height:1.25;padding:0 2px;overflow-wrap:anywhere}
+.place .val{font-weight:800;font-size:20px;font-variant-numeric:tabular-nums;margin:2px 0 8px}
+.place .medal{font-size:26px;line-height:1;margin-bottom:4px}
+.step{width:100%;border-radius:8px 8px 0 0;display:flex;align-items:flex-start;justify-content:center;padding-top:10px;font-style:italic;font-weight:900;font-size:34px;color:#fff;transform-origin:bottom;animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+.p1 .step{height:150px;background:linear-gradient(180deg,#f6c945,#c9941a)}
+.p2 .step{height:108px;background:linear-gradient(180deg,#c9d3e6,#8b97b3);animation-delay:.15s}
+.p3 .step{height:78px;background:linear-gradient(180deg,#e0955a,#a8602c);animation-delay:.3s}
+@keyframes rise{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@media (max-width:760px){.podiums{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.step{animation:none}}
+@media (max-width:760px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .head{display:none}
+  .row{grid-template-columns:36px 1fr auto;grid-template-areas:"rk nm ls" "rk br br";row-gap:6px}
+  .row .rank{grid-area:rk}
+  .row .name{grid-area:nm}
+  .row .barcell{grid-area:br}
+  .row .c-b{grid-area:ls}
+  .row .c-other{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .fill,.car{transition:none}
+  .ticker-in{animation:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="tag">Bảng xếp hạng</span>
+  <p class="brand">Bảo hiểm PVI</p>
+  <h1>Đường đua<span class="l2">kế hoạch 2026</span></h1>
+  <div class="sprint"><span id="sprintTxt">Hoàn thành kế hoạch &amp; tỷ lệ bồi thường</span></div>
+  <p class="lede"><span id="periodTxt">Đang tải dữ liệu…</span> Tỷ lệ bồi thường đã gồm dự phòng.</p>
+  <div class="picker">
+    <label for="prodTop">Sản phẩm</label>
+    <select id="prodTop" class="prod"></select>
+  </div>
+  <div class="chips">
+    <span class="chip"><span class="dot" id="srcDot"></span><span id="srcTxt">Đang tải…</span></span>
+    <span class="chip" id="unitChip"></span>
+    <span class="chip">So sánh tỷ lệ bồi thường với cùng kỳ 2025</span>
+  </div>
+
+  <div class="track-wrap" aria-label="Tiến độ hoàn thành kế hoạch năm của toàn công ty">
+    <div class="track" id="track">
+      <div class="fill" id="fill"></div>
+      <div class="timeline" id="timeline"><span id="tlLabel"></span></div>
+      <div class="car" id="car" aria-hidden="true">
+        <svg viewBox="0 0 40 22"><path d="M4 14 L7 8 Q9 5 13 5 L25 5 Q28 5 30 8 L33 11 L37 12 Q39 13 39 15 L39 17 L1 17 L1 15 Q1 14 4 14Z" fill="#ff7a18"/><path d="M11 7 L15 7 L15 11 L8 11Z M17 7 L24 7 L28 11 L17 11Z" fill="#cfe0ff"/><circle cx="10" cy="17" r="3.4" fill="#1b1b1b"/><circle cx="30" cy="17" r="3.4" fill="#1b1b1b"/><circle cx="10" cy="17" r="1.4" fill="#bbb"/><circle cx="30" cy="17" r="1.4" fill="#bbb"/></svg>
+      </div>
+      <div class="flag"></div>
+    </div>
+    <div class="track-legend"><span>Xuất phát 01/01</span><span id="carLabel" style="text-align:center"></span><span>Về đích 31/12</span></div>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+</div>
+
+<div class="ticker" aria-hidden="true"><div class="ticker-in" id="ticker"></div></div>
+
+<div class="wrap" style="padding-top:0">
+  <h2>Bục vinh quang</h2>
+  <p class="sub" id="podSub"></p>
+  <div class="podiums">
+    <div class="pcard"><h3>Hoàn thành kế hoạch cao nhất</h3><p class="hint" id="podPlanHint"></p><div class="podium" id="podPlan"></div></div>
+    <div class="pcard"><h3>Tỷ lệ bồi thường thấp nhất</h3><p class="hint">Tỷ lệ bồi thường 2026 gồm dự phòng</p><div class="podium" id="podLoss"></div></div>
+  </div>
+
+  <h2 id="boardTitle">Xếp hạng đơn vị</h2>
+  <p class="sub" id="boardSub"></p>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Tiêu chí xếp hạng">
+      <button type="button" data-sort="plan" aria-pressed="true">Hoàn thành KH cao → thấp</button>
+      <button type="button" data-sort="loss" aria-pressed="false">Tỷ lệ bồi thường thấp → cao</button>
+    </div>
+    <div class="seg" role="group" aria-label="Kỳ kế hoạch">
+      <button type="button" data-period="m" aria-pressed="true">Lũy kế tháng</button>
+      <button type="button" data-period="y" aria-pressed="false">Cả năm</button>
+    </div>
+    <select id="prodBoard" class="prod small" aria-label="Sản phẩm"></select>
+    <input class="search" id="search" type="search" placeholder="Tìm đơn vị, ví dụ Gia Định" aria-label="Tìm đơn vị">
+  </div>
+  <div class="board" role="table" aria-label="Bảng xếp hạng đơn vị">
+    <div class="head" role="row">
+      <span>Hạng</span><span>Đơn vị</span><span id="hPlan">% hoàn thành KH lũy kế tháng</span>
+      <span class="r c-b">TLBT 2026</span><span class="r c-other">TLBT 2025</span>
+    </div>
+    <div id="rows"></div>
+  </div>
+
+  <h2>Ma trận doanh thu – bồi thường</h2>
+  <p class="sub">Mỗi chấm là một đơn vị. Góc trên bên phải là nhóm vừa vượt kế hoạch vừa có tỷ lệ bồi thường thấp hơn bình quân công ty. Rê chuột hoặc chạm vào chấm để xem tên.</p>
+  <div class="matrix" id="matrix"><div class="tip" id="tip"></div></div>
+  <div class="legend" id="legend"></div>
+
+  <div class="notes">
+    <p>Cột "hoàn thành KH" dùng theo lựa chọn ở trên: lũy kế tháng (kế hoạch lũy kế đến kỳ báo cáo) hoặc cả năm.</p>
+    <p>Danh sách không gồm PVI Phía Nam (South) và PVI Digital. Dòng BH PVI là số toàn công ty không gồm hai đơn vị này.</p>
+    <p>Đơn vị chưa có kế hoạch cho sản phẩm đang chọn, hoặc có tỷ lệ bồi thường âm (thường do hoàn nhập dự phòng), không được xếp hạng và không lên bục. Các đơn vị này vẫn hiện ở cuối bảng để tham khảo.</p>
+    <p>Dấu "—" ở cột TLBT 2025 là đơn vị chưa có số liệu cùng kỳ.</p>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   CẤU HÌNH – chỉ cần sửa phần này
+   ===================================================================== */
+const CONFIG = {
+  // Dán link CSV lấy từ Google Sheet: Tệp → Chia sẻ → Công bố lên web → chọn trang tính → CSV.
+  // Để trống "" thì trang dùng dữ liệu mẫu có sẵn bên dưới.
+  SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQD_OkkHc0cKnsJCcLVKabnO4RGIAdxHUjGRsALABihu6l3THbi9pfyHOYxY64OVm6PF5H1sfEjz2D3/pub?output=csv",
+  // Đơn vị không đưa vào xếp hạng (ghi đúng tên như trong sheet)
+  EXCLUDE: ["PVI Phía Nam", "PVI Digital"],
+  // Tên dòng tổng dùng cho các ô chỉ số
+  TOTAL_NAME: "BH PVI",
+  // Tự tải lại dữ liệu sau bao nhiêu phút (0 = không tự tải lại)
+  AUTO_REFRESH_MIN: 10
+};
+/* ===================================================================== */
+
+const SAMPLE = {"prods": ["XCG", "XCG(trừ GSM)", "VCX Ô TÔ", "VCX Ô TÔ(trừ GSM)", "TNDS ô tô và khác", "TNDS XM", "XM KHÁC"], "rows": [{"tt": "1", "n": "PVI Hà Nội", "p": {"XCG": {"m": 0.9518, "y": 0.7055, "b": 0.365, "b25": 0.3494}, "XCG(trừ GSM)": {"m": 0.9505, "y": 0.6999, "b": 0.3561, "b25": 0.3425}, "VCX Ô TÔ": {"m": 0.5867, "y": 0.5051, "b": 0.6034, "b25": 0.5907}, "VCX Ô TÔ(trừ GSM)": {"m": 0.5665, "y": 0.4845, "b": 0.5955, "b25": 0.5738}, "TNDS ô tô và khác": {"m": 1.4649, "y": 0.9911, "b": 0.2482, "b25": 0.2146}, "TNDS XM": {"m": 0.6897, "y": 0.4936, "b": 0.144, "b25": 0.0}, "XM KHÁC": {"m": 0.0531, "y": 0.009, "b": 0.3705, "b25": -0.1754}}}, {"tt": "2", "n": "PVI Đông Đô", "p": {"XCG": {"m": 1.1697, "y": 0.8446, "b": 0.2379, "b25": 0.2498}, "XCG(trừ GSM)": {"m": 1.1747, "y": 0.8413, "b": 0.1989, "b25": 0.2312}, "VCX Ô TÔ": {"m": 0.8753, "y": 0.6018, "b": 0.6349, "b25": 0.5108}, "VCX Ô TÔ(trừ GSM)": {"m": 0.8605, "y": 0.5705, "b": 0.475, "b25": 0.4931}, "TNDS ô tô và khác": {"m": 1.3486, "y": 0.9996, "b": 0.1397, "b25": 0.1276}, "TNDS XM": {"m": 0.2448, "y": 0.1632, "b": 0.0, "b25": -0.1783}, "XM KHÁC": {"m": null, "y": null, "b": 0.0, "b25": 0.0}}}, {"tt": "3", "n": "PVI Thăng Long", "p": {"XCG": {"m": 0.9498, "y": 0.7081, "b": 0.4487, "b25": 0.4139}, "XCG(trừ GSM)": {"m": 0.9479, "y": 0.7002, "b": 0.4175, "b25": 0.4216}, "VCX Ô TÔ": {"m": 1.0876, "y": 0.8307, "b": 0.5789, "b25": 0.6899}, "VCX Ô TÔ(trừ GSM)": {"m": 1.0972, "y": 0.8169, "b": 0.5117, "b25": 0.7486}, "TNDS ô tô và khác": {"m": 0.8799, "y": 0.6472, "b": 0.369, "b25": 0.2281}, "TNDS XM": {"m": 0.2109, "y": 0.1582, "b": 0.0, "b25": 0.1526}, "XM KHÁC": {"m": null, "y": null, "b": -8.1252, "b25": 0.0}}}, {"tt": "4", "n": "PVI Hà Thành", "p": {"XCG": {"m": 0.9265, "y": 0.6869, "b": 0.2205, "b25": 0.196}, "XCG(trừ GSM)": {"m": 0.9265, "y": 0.6869, "b": 0.2205, "b25": 0.196}, "VCX Ô TÔ": {"m": 0.6893, "y": 0.4926, "b": 0.6604, "b25": 0.4765}, "VCX Ô TÔ(trừ GSM)": {"m": 0.6893, "y": 0.4926, "b": 0.6604, "b25": 0.4765}, "TNDS ô tô và khác": {"m": 0.7031, "y": 0.5349, "b": 0.3311, "b25": 0.0947}, "TNDS XM": {"m": 1.3648, "y": 0.9345, "b": 0.0, "b25": 0.0}, "XM KHÁC": {"m": 1.1902, "y": 0.9206, "b": 0.0055, "b25": 0.0009}}}, {"tt": "5", "n": "PVI Thủ Đô", "p": {"XCG": {"m": 1.1823, "y": 0.8269, "b": 0.5498, "b25": 0.4841}, "XCG(trừ GSM)": {"m": 1.2975, "y": 0.7627, "b": 0.4337, "b25": 0.4695}, "VCX Ô TÔ": {"m": 1.1326, "y": 0.782, "b": 0.6442, "b25": 0.5298}, "VCX Ô TÔ(trừ GSM)": {"m": 1.2645, "y": 0.6675, "b": 0.5311, "b25": 0.5309}, "TNDS ô tô và khác": {"m": 1.3677, "y": 1.0012, "b": 0.2763, "b25": 0.2936}, "TNDS XM": {"m": 0.3377, "y": 0.2649, "b": 0.0, "b25": 0.0}, "XM KHÁC": {"m": null, "y": null, "b": 0.0, "b25": 0.7089}}}, {"tt": "6", "n": "PVI Tràng An", "p": {"XCG": {"m": 0.811, "y": 0.6111, "b": 0.3853, "b25": 0.2663}, "XCG(trừ GSM)": {"m": 0.803, "y": 0.5989, "b": 0.3881, "b25": 0.2663}, "VCX Ô TÔ": {"m": 0.8358, "y": 0.6292, "b": 0.6456, "b25": 0.5553}, "VCX Ô TÔ(trừ GSM)": {"m": 0.8202, "y": 0.6031, "b": 0.6821, "b25": 0.5553}, "TNDS ô tô và khác": {"m": 0.8324, "y": 0.6295, "b": 0.2275, "b25": 0.049}, "TNDS XM": {"m": 0.3109, "y": 0.2332, "b": 0.0, "b25": 0.0}, "XM KHÁC": {"m": 0.6996, "y": 0.5247, "b": -0.0759, "b25": 0.1125}}}, {"tt": "7", "n": "PVI Âu Lạc", "p": {"XCG": {"m": 1.0588, "y": 0.891, "b": 0.4224, "b25": 0.3}, "XCG(trừ GSM)": {"m": 1.0869, "y": 0.8502, "b": 0.3113, "b25": 0.2653}, "VCX Ô TÔ": {"m": 1.1694, "y": 0.8771, "b": 0.6959, "b25": 0.5829}, "VCX Ô TÔ(trừ GSM)": {"m": 1.4718, "y": 0.7633, "b": 0.7209, "b25": 0.5542}, "TNDS ô tô và khác": {"m": 0.9568, "y": 0.9185, "b": 0.0904, "b25": 0.0181}, "TNDS XM": {"m": 0.8742, "y": 0.845, "b": -0.0099, "b25": 0.0}, "XM KHÁC": {"m": null, "y": null, "b": 0.0, "b25": 0.0}}}, {"tt": "8", "n": "PVI Thái Nguyên", "p": {"XCG": {"m": 1.1919, "y": 0.9249, "b": 0.4006, "b25": 0.4256}, "XCG(trừ GSM)": {"m": 1.21, "y": 0.9195, "b": 0.3748, "b25": 0.4265}, "VCX Ô TÔ": {"m": 1.4918, "y": 1.1482, "b": 0.4688, "b25": 0.5124}, "VCX Ô TÔ(trừ GSM)": {"m": 1.5912, "y": 1.1702, "b": 0.4353, "b25": 0.5143}, "TNDS ô tô và khác": {"m": 0.866, "y": 0.6252, "b": 0.4402, "b25": 0.3192}, "TNDS XM": {"m": 0.8937, "y": 0.8202, "b": 0.0054, "b25": 0.0015}, "XM KHÁC": {"m": null, "y": null, "b": 0.0, "b25": 0.0}}}, {"tt": "9", "n": "PVI Vĩnh Phú", "p": {"XCG": {"m": 0.8745, "y": 0.6676, "b": 1.1346, "b25": 0.3462}, "XCG(trừ GSM)": {"m": 0.7686, "y": 0.489, "b": 0.5866, "b25": 0.4662}, "VCX Ô TÔ": {"m": 0.8893, "y": 0.6823, "b": 1.2657, "b25": 0.2956}, "VCX Ô TÔ(trừ GSM)": {"m": 0.7511, "y": 0.4465, "b": 0.6548, "b25": 0.424}, "TNDS ô tô và khác": {"m": 0.8235, "y": 0.6163, "b": 0.4664, "b25": 0.5617}, "TNDS XM": {"m": 0.4337, "y": 0.3028, "b": 0.0, "b25": 0.0}, "XM KHÁC": {"m": null, "y": null, "b": 0.0, "b25": 0.0}}}, {"tt": "10", "n": "PVI Kinh Bắc", "p": {"XCG": {"m": 1.3372, "y": 1.0546, "b": 0.255, "b25": 0.2942}, "XCG(trừ GSM)": {"m": 1.3377, "y": 1.0546, "b": 0.2352, "b25": 0.2764}, "VCX Ô TÔ": {"m": 1.0623, "y": 0.8224, "b": 0.5352, "b25": 0.4155}, "VCX Ô TÔ(trừ GSM)": {"m": 1.0625, "y": 0.8221, "b": 0.4884, "b25": 0.3993}, "TNDS ô tô và khác": {"m": 1.7027, "y": 1.3682, "b": 0.0557, "b25": 0.1124}, "TNDS XM": {"m": 1.3123, "y": 1.0636, "b": 0.0514, "b25": 0.0579}, "XM KHÁC": {"m": null, "y": null, "b": 0.0731, "b25": 0.0031}}}, {"tt": "11", "n": "PVI Quảng Ninh", "p": {"XCG": {"m": 0.6974, "y": 0.5565, "b": 1.0089, "b25": 0.5278}, "XCG(trừ GSM)": {"m": 0.6188, "y": 0.4691, "b": 0.7073, "b25": 0.5716}, "VCX Ô TÔ": {"m": 0.6426, "y": 0.5092, "b": 1.1174, "b25": 0.5324}, "VCX Ô TÔ(trừ GSM)": {"m": 0.5365, "y": 0.4004, "b": 0.7796, "b25": 0.5937}, "TNDS ô tô và khác": {"m": 1.367, "y": 1.1985, "b": 0.483, "b25": 0.5259}, "TNDS XM": {"m": 0.0347, "y": 0.0249, "b": 0.0, "b25": 0.0}, "XM KHÁC": {"m": null, "y": null, "b": 0.0, "b25": 0.0}}}, {"tt": "12", "n": "PVI Duyên Hải", "p": {"XCG": {"m": 1.1068, "y": 0.8893, "b": 0.9308, "b25": 0.4771}, "XCG(trừ GSM)": {"m": 1.1741, "y": 0.8394, "b": 0.5108, "b25": 0.3822}, "VCX Ô TÔ": {"m": 1.2093, "y": 1.0096, "b": 1.1377, "b25": 0.5249}, "VCX Ô TÔ(trừ GSM)": {"m": 1.5053, "y": 1.0188, "b": 0.5971, "b25": 0.4197}, "TNDS ô tô và khác": {"m": 0.9514, "y": 0.7118, "b": 0.4333, "b25": 0.3697}, "TNDS XM": {"m": 0.6014, "y": 0.4531, "b": 0.0453, "b25": 0.0}, "XM KHÁC": {"m": 0.5198, "y": 0.3906, "b": -0.6916, "b25": -0.076}}}, {"tt": "13", "n": "PVI Hải Hưng", "p": {"XCG": {"m": 0.9192, "y": 0.6632, "b": 0.5712, "b25": null}, "XCG(trừ GSM)": {"m": 0.9075, "y": 0.6294, "b": 0.577, "b25": null}, "VCX Ô TÔ": {"m": 0.9592, "y": 0.6894, "b": 0.7229, "b25": null}, "VCX Ô TÔ(trừ GSM)": {"m": 0.9497, "y": 0.6405, "b": 0.769, "b25": null}, "TNDS ô tô và khác": {"m": 0.9208, "y": 0.6664, "b": 0.2347, "b25": null}, "TNDS XM": {"m": 0.3573, "y": 0.268, "b": 0.0, "b25": null}, "XM KHÁC": {"m": 0.1866, "y": 0.1399, "b": 0.0, "b25": null}}}, {"tt": "14", "n": "PVI Thanh Hóa", "p": {"XCG": {"m": 0.7316, "y": 0.5451, "b": 0.5355, "b25": 0.5054}, "XCG(trừ GSM)": {"m": 0.7144, "y": 0.5238, "b": 0.482, "b25": 0.5324}, "VCX Ô TÔ": {"m": 0.835, "y": 0.6251, "b": 0.4956, "b25": 0.5858}, "VCX Ô TÔ(trừ GSM)": {"m": 0.8188, "y": 0.5981, "b": 0.4192, "b25": 0.6335}, "TNDS ô tô và khác": {"m": 0.6082, "y": 0.4502, "b": 0.661, "b25": 0.4478}, "TNDS XM": {"m": 0.3067, "y": 0.2251, "b": 0.7185, "b25": 0.0}, "XM KHÁC": {"m": null, "y": null, "b": 0.0, "b25": 0.0}}}, {"tt": "15", "n": "PVI Bắc Trung Bộ", "p": {"XCG": {"m": 0.6864, "y": 0.5053, "b": 0.4992, "b25": 0.431}, "XCG(trừ GSM)": {"m": 0.6864, "y": 0.5053, "b": 0.4992, "b25": 0.431}, "VCX Ô TÔ": {"m": 0.7285, "y": 0.5325, "b": 0.6778, "b25": 0.5917}, "VCX Ô TÔ(trừ GSM)": {"m": 0.7285, "y": 0.5325, "b": 0.6778, "b25": 0.5917}, "TNDS ô tô và khác": {"m": 0.5878, "y": 0.4383, "b": 0.3748, "b25": 0.3511}, "TNDS XM": {"m": 0.7943, "y": 0.5884, "b": 0.0, "b25": 0.0659}, "XM KHÁC": {"m": 0.9198, "y": 0.5951, "b": 0.004, "b25": 0.0051}}}, {"tt": "16", "n": "PVI Link", "p": {"XCG": {"m": 2.1681, "y": 1.7548, "b": 0.5201, "b25": 0.1248}, "XCG(trừ GSM)": {"m": 2.6148, "y": 1.9725, "b": 0.4232, "b25": 0.064}, "VCX Ô TÔ": {"m": 0.9158, "y": 0.7528, "b": 0.8944, "b25": 0.1888}, "VCX Ô TÔ(trừ GSM)": {"m": 0.8742, "y": 0.6606, "b": 0.7318, "b25": 0.1077}, "TNDS ô tô và khác": {"m": 7.2836, "y": 5.4627, "b": 0.4416, "b25": 0.1402}, "TNDS XM": {"m": 10.5596, "y": 7.9197, "b": 0.0, "b25": 0.0}, "XM KHÁC": {"m": null, "y": null, "b": 0.0404, "b25": 0.0}}}, {"tt": "17", "n": "PVI Ninh Bình", "p": {"XCG": {"m": 1.6894, "y": 1.3011, "b": 0.1253, "b25": 0.0}, "XCG(trừ GSM)": {"m": 1.7642, "y": 1.3257, "b": 0.1081, "b25": 0.0}, "VCX Ô TÔ": {"m": 1.2297, "y": 0.9056, "b": 0.3313, "b25": null}, "VCX Ô TÔ(trừ GSM)": {"m": 1.2977, "y": 0.8865, "b": 0.3145, "b25": null}, "TNDS ô tô và khác": {"m": 0.5735, "y": 0.4628, "b": 0.1354, "b25": 0.0}, "TNDS XM": {"m": 9.6281, "y": 7.234, "b": 0.0, "b25": null}, "XM KHÁC": {"m": null, "y": null, "b": 0.0, "b25": null}}}, {"tt": "18", "n": "PVI Quảng Trị", "p": {"XCG": {"m": 1.1163, "y": 0.8659, "b": 0.815, "b25": 0.6711}, "XCG(trừ GSM)": {"m": 1.1725, "y": 0.8206, "b": 0.5062, "b25": 0.728}, "VCX Ô TÔ": {"m": 1.0246, "y": 0.7959, "b": 0.9511, "b25": 0.7402}, "VCX Ô TÔ(trừ GSM)": {"m": 1.0393, "y": 0.7122, "b": 0.5981, "b25": 0.8998}, "TNDS ô tô và khác": {"m": 2.0178, "y": 1.5133, "b": 0.2893, "b25": 0.2114}, "TNDS XM": {"m": 0.4956, "y": 0.431, "b": 0.0, "b25": 0.0}, "XM KHÁC": {"m": 0.1962, "y": 0.157, "b": 0.0, "b25": 0.0}}}, {"tt": "19", "n": "PVI Huế", "p": {"XCG": {"m": 0.8792, "y": 0.6654, "b": 0.716, "b25": 0.405}, "XCG(trừ GSM)": {"m": 0.8514, "y": 0.6103, "b": 0.4237, "b25": 0.3246}, "VCX Ô TÔ": {"m": 0.8953, "y": 0.6767, "b": 1.0605, "b25": 0.5789}, "VCX Ô TÔ(trừ GSM)": {"m": 0.8474, "y": 0.5762, "b": 0.6623, "b25": 0.553}, "TNDS ô tô và khác": {"m": 0.8882, "y": 0.676, "b": 0.2061, "b25": 0.1508}, "TNDS XM": {"m": 0.7023, "y": 0.5205, "b": 0.0509, "b25": 0.0059}, "XM KHÁC": {"m": 0.5213, "y": 0.391, "b": -0.1179, "b25": 0.0213}}}, {"tt": "20", "n": "PVI Đà Nẵng", "p": {"XCG": {"m": 0.8521, "y": 0.6301, "b": 0.5384, "b25": 0.527}, "XCG(trừ GSM)": {"m": 0.848, "y": 0.6227, "b": 0.5357, "b25": 0.527}, "VCX Ô TÔ": {"m": 0.8899, "y": 0.6584, "b": 0.687, "b25": 0.6231}, "VCX Ô TÔ(trừ GSM)": {"m": 0.8857, "y": 0.6489, "b": 0.6897, "b25": 0.6231}, "TNDS ô tô và khác": {"m": 0.8114, "y": 0.6081, "b": 0.0718, "b25": 0.273}, "TNDS XM": {"m": 0.6005, "y": 0.443, "b": 0.0107, "b25": 0.0003}, "XM KHÁC": {"m": 0.4508, "y": 0.2328, "b": 0.1062, "b25": -0.0375}}}, {"tt": "21", "n": "PVI Nam Đà Nẵng", "p": {"XCG": {"m": 0.9, "y": 0.6811, "b": 0.5189, "b25": 0.4517}, "XCG(trừ GSM)": {"m": 0.8944, "y": 0.6677, "b": 0.5247, "b25": 0.4517}, "VCX Ô TÔ": {"m": 1.0473, "y": 0.7856, "b": 0.624, "b25": 0.5624}, "VCX Ô TÔ(trừ GSM)": {"m": 1.0518, "y": 0.7706, "b": 0.642, "b25": 0.5624}, "TNDS ô tô và khác": {"m": 0.6789, "y": 0.5225, "b": 0.3019, "b25": 0.3861}, "TNDS XM": {"m": 0.5575, "y": 0.4182, "b": 0.0, "b25": 0.0}, "XM KHÁC": {"m": 0.808, "y": 0.6521, "b": 0.0, "b25": 0.044}}}, {"tt": "22", "n": "PVI Tây Nguyên", "p": {"XCG": {"m": 0.9269, "y": 0.6379, "b": 0.8682, "b25": 0.5083}, "XCG(trừ GSM)": {"m": 0.901, "y": 0.5582, "b": 0.5871, "b25": 0.4765}, "VCX Ô TÔ": {"m": 0.9031, "y": 0.6, "b": 1.1405, "b25": 0.6845}, "VCX Ô TÔ(trừ GSM)": {"m": 0.8481, "y": 0.4734, "b": 0.8457, "b25": 0.7223}, "TNDS ô tô và khác": {"m": 0.8118, "y": 0.6206, "b": 0.2983, "b25": 0.1293}, "TNDS XM": {"m": 1.9784, "y": 1.4328, "b": 0.0, "b25": 0.0}, "XM KHÁC": {"m": null, "y": null, "b": 0.0, "b25": 0.0}}}, {"tt": "23", "n": "PVI Nam Trung Bộ", "p": {"XCG": {"m": 0.9419, "y": 0.6985, "b": 0.3352, "b25": 0.3727}, "XCG(trừ GSM)": {"m": 0.9419, "y": 0.6985, "b": 0.3352, "b25": 0.3727}, "VCX Ô TÔ": {"m": 0.9593, "y": 0.703, "b": 0.3798, "b25": 0.426}, "VCX Ô TÔ(trừ GSM)": {"m": 0.9593, "y": 0.703, "b": 0.3798, "b25": 0.426}, "TNDS ô tô và khác": {"m": 0.9493, "y": 0.7062, "b": 0.2615, "b25": 0.2789}, "TNDS XM": {"m": 0.5725, "y": 0.5221, "b": 0.0, "b25": 0.0}, "XM KHÁC": {"m": 0.6534, "y": 0.5808, "b": 0.0, "b25": 0.0835}}}, {"tt": "24", "n": "PVI Gia Lai", "p": {"XCG": {"m": 1.3192, "y": 0.9594, "b": 0.5647, "b25": 0.3306}, "XCG(trừ GSM)": {"m": 1.3363, "y": 0.9578, "b": 0.5418, "b25": 0.3394}, "VCX Ô TÔ": {"m": 1.5402, "y": 1.0996, "b": 0.8381, "b25": 0.5289}, "VCX Ô TÔ(trừ GSM)": {"m": 1.5996, "y": 1.1072, "b": 0.8177, "b25": 0.5653}, "TNDS ô tô và khác": {"m": 1.1209, "y": 0.8311, "b": 0.1571, "b25": 0.1362}, "TNDS XM": {"m": 0.4135, "y": 0.3101, "b": 0.0, "b25": 0.0001}, "XM KHÁC": {"m": null, "y": null, "b": 0.0, "b25": 0.0138}}}, {"tt": "25", "n": "PVI Khánh Hòa", "p": {"XCG": {"m": 0.915, "y": 0.6872, "b": 0.9906, "b25": 0.3905}, "XCG(trừ GSM)": {"m": 0.8962, "y": 0.638, "b": 0.8232, "b25": 0.3224}, "VCX Ô TÔ": {"m": 0.9448, "y": 0.7063, "b": 1.207, "b25": 0.5165}, "VCX Ô TÔ(trừ GSM)": {"m": 0.9275, "y": 0.6427, "b": 1.0509, "b25": 0.4752}, "TNDS ô tô và khác": {"m": 0.886, "y": 0.6577, "b": 0.2859, "b25": -0.0689}, "TNDS XM": {"m": 0.5599, "y": 0.4464, "b": 0.0, "b25": 0.0}, "XM KHÁC": {"m": 3.6011, "y": 3.4211, "b": 0.056, "b25": -0.0194}}}, {"tt": "26", "n": "PVI Lâm Đồng", "p": {"XCG": {"m": 0.5258, "y": 0.3623, "b": 0.3358, "b25": 0.0}, "XCG(trừ GSM)": {"m": 0.5258, "y": 0.3623, "b": 0.3358, "b25": 0.0}, "VCX Ô TÔ": {"m": 0.4311, "y": 0.2961, "b": 0.4547, "b25": 0.0}, "VCX Ô TÔ(trừ GSM)": {"m": 0.4311, "y": 0.2961, "b": 0.4547, "b25": 0.0}, "TNDS ô tô và khác": {"m": 1.2611, "y": 0.9223, "b": 0.1124, "b25": 0.0}, "TNDS XM": {"m": 0.2332, "y": 0.1484, "b": -0.2042, "b25": 0.0}, "XM KHÁC": {"m": null, "y": null, "b": 0.0, "b25": 0.0}}}, {"tt": "27", "n": "PVI TP.HCM", "p": {"XCG": {"m": 0.703, "y": 0.5198, "b": 0.5677, "b25": 0.5764}, "XCG(trừ GSM)": {"m": 0.703, "y": 0.5198, "b": 0.5677, "b25": 0.5764}, "VCX Ô TÔ": {"m": 0.6911, "y": 0.5115, "b": 0.6318, "b25": 0.6359}, "VCX Ô TÔ(trừ GSM)": {"m": 0.6911, "y": 0.5115, "b": 0.6318, "b25": 0.6359}, "TNDS ô tô và khác": {"m": 0.9039, "y": 0.6656, "b": 0.0842, "b25": 0.1479}, "TNDS XM": {"m": 0.2793, "y": 0.1972, "b": 0.0, "b25": 0.0}, "XM KHÁC": {"m": 0.3466, "y": 0.2657, "b": 0.0, "b25": 0.0}}}, {"tt": "28", "n": "PVI Sài Gòn", "p": {"XCG": {"m": 0.7302, "y": 0.5439, "b": 0.6237, "b25": 0.5013}, "XCG(trừ GSM)": {"m": 0.7302, "y": 0.5439, "b": 0.5879, "b25": 0.4524}, "VCX Ô TÔ": {"m": 0.7264, "y": 0.5413, "b": 0.6924, "b25": 0.5629}, "VCX Ô TÔ(trừ GSM)": {"m": 0.7264, "y": 0.5413, "b": 0.65, "b25": 0.5167}, "TNDS ô tô và khác": {"m": 0.8007, "y": 0.5956, "b": 0.3271, "b25": 0.2245}, "TNDS XM": {"m": 0.779, "y": 0.5366, "b": 0.1227, "b25": 0.0001}, "XM KHÁC": {"m": 0.4492, "y": 0.3699, "b": -0.2031, "b25": -0.0269}}}, {"tt": "29", "n": "PVI Bến Thành", "p": {"XCG": {"m": 0.9559, "y": 0.6541, "b": 0.6228, "b25": 0.5419}, "XCG(trừ GSM)": {"m": 0.9559, "y": 0.6541, "b": 0.6228, "b25": 0.5419}, "VCX Ô TÔ": {"m": 0.9486, "y": 0.6458, "b": 0.6336, "b25": 0.5911}, "VCX Ô TÔ(trừ GSM)": {"m": 0.9486, "y": 0.6458, "b": 0.6336, "b25": 0.5911}, "TNDS ô tô và khác": {"m": 1.0303, "y": 0.7345, "b": 0.5495, "b25": 0.1648}, "TNDS XM": {"m": 0.4304, "y": 0.3228, "b": 0.0, "b25": 0.0}, "XM KHÁC": {"m": null, "y": null, "b": 0.0, "b25": 0.0}}}, {"tt": "30", "n": "PVI Thống Nhất", "p": {"XCG": {"m": 0.8155, "y": 0.6107, "b": 0.5839, "b25": 0.488}, "XCG(trừ GSM)": {"m": 0.8155, "y": 0.6107, "b": 0.5839, "b25": 0.488}, "VCX Ô TÔ": {"m": 0.8177, "y": 0.614, "b": 0.649, "b25": 0.5342}, "VCX Ô TÔ(trừ GSM)": {"m": 0.8177, "y": 0.614, "b": 0.649, "b25": 0.5342}, "TNDS ô tô và khác": {"m": 0.815, "y": 0.601, "b": 0.2742, "b25": 0.3377}, "TNDS XM": {"m": 0.3904, "y": 0.3086, "b": 0.0, "b25": 0.0}, "XM KHÁC": {"m": 0.3649, "y": 0.3038, "b": 0.0, "b25": 0.0}}}, {"tt": "31", "n": "PVI Thành Đô", "p": {"XCG": {"m": 0.8318, "y": 0.5859, "b": 0.6467, "b25": 0.5036}, "XCG(trừ GSM)": {"m": 0.8318, "y": 0.5859, "b": 0.6467, "b25": 0.5036}, "VCX Ô TÔ": {"m": 0.8454, "y": 0.605, "b": 0.6985, "b25": 0.551}, "VCX Ô TÔ(trừ GSM)": {"m": 0.8454, "y": 0.605, "b": 0.6985, "b25": 0.551}, "TNDS ô tô và khác": {"m": 0.7411, "y": 0.4761, "b": 0.2969, "b25": 0.141}, "TNDS XM": {"m": 1.5202, "y": 1.1479, "b": 0.0, "b25": 0.0}, "XM KHÁC": {"m": 5.9175, "y": 5.9175, "b": 0.0, "b25": 0.0}}}, {"tt": "32", "n": "PVI Thủ Đức", "p": {"XCG": {"m": 0.5177, "y": 0.3838, "b": 0.5294, "b25": 0.6437}, "XCG(trừ GSM)": {"m": 0.5177, "y": 0.3838, "b": 0.5294, "b25": 0.6437}, "VCX Ô TÔ": {"m": 0.537, "y": 0.3972, "b": 0.5527, "b25": 0.7334}, "VCX Ô TÔ(trừ GSM)": {"m": 0.537, "y": 0.3972, "b": 0.5527, "b25": 0.7334}, "TNDS ô tô và khác": {"m": 0.4662, "y": 0.3497, "b": 0.4216, "b25": 0.2598}, "TNDS XM": {"m": 0.2024, "y": 0.1488, "b": 0.0, "b25": 0.0}, "XM KHÁC": {"m": 0.2221, "y": 0.1666, "b": 1.0004, "b25": 0.0}}}, {"tt": "33", "n": "PVI Gia Định", "p": {"XCG": {"m": 0.7823, "y": 0.5851, "b": 0.5879, "b25": 0.3675}, "XCG(trừ GSM)": {"m": 0.7823, "y": 0.5851, "b": 0.5879, "b25": 0.3675}, "VCX Ô TÔ": {"m": 0.7965, "y": 0.5974, "b": 0.6043, "b25": 0.4199}, "VCX Ô TÔ(trừ GSM)": {"m": 0.7965, "y": 0.5974, "b": 0.6043, "b25": 0.4199}, "TNDS ô tô và khác": {"m": 0.6614, "y": 0.4844, "b": 0.4713, "b25": 0.0159}, "TNDS XM": {"m": 1.9699, "y": 1.4774, "b": 0.0, "b25": 0.0}, "XM KHÁC": {"m": null, "y": null, "b": 0.0, "b25": 0.0}}}, {"tt": "34", "n": "PVI Nam Sài Gòn", "p": {"XCG": {"m": 0.6648, "y": 0.5009, "b": 0.6677, "b25": 0.5002}, "XCG(trừ GSM)": {"m": 0.66, "y": 0.4955, "b": 0.6478, "b25": 0.5002}, "VCX Ô TÔ": {"m": 0.5363, "y": 0.4045, "b": 0.6995, "b25": 0.537}, "VCX Ô TÔ(trừ GSM)": {"m": 0.5258, "y": 0.3943, "b": 0.6614, "b25": 0.537}, "TNDS ô tô và khác": {"m": 1.2981, "y": 0.9856, "b": 0.6719, "b25": 0.6039}, "TNDS XM": {"m": 0.1116, "y": 0.0824, "b": -0.0173, "b25": 0.0028}, "XM KHÁC": {"m": null, "y": null, "b": 0.0245, "b25": 0.0139}}}, {"tt": "35", "n": "PVI Vũng Tàu", "p": {"XCG": {"m": 1.0224, "y": 0.7321, "b": 0.2818, "b25": 0.199}, "XCG(trừ GSM)": {"m": 1.0224, "y": 0.7321, "b": 0.2818, "b25": 0.199}, "VCX Ô TÔ": {"m": 0.9888, "y": 0.7194, "b": 0.3432, "b25": 0.2709}, "VCX Ô TÔ(trừ GSM)": {"m": 0.9888, "y": 0.7194, "b": 0.3432, "b25": 0.2709}, "TNDS ô tô và khác": {"m": 1.0694, "y": 0.7523, "b": 0.2301, "b25": 0.1291}, "TNDS XM": {"m": 0.4136, "y": 0.3348, "b": 0.0, "b25": -0.1071}, "XM KHÁC": {"m": 0.6205, "y": 0.4654, "b": 0.0, "b25": 0.0}}}, {"tt": "36", "n": "PVI Đông Sài Gòn", "p": {"XCG": {"m": 0.6828, "y": 0.4978, "b": 0.7894, "b25": 0.4747}, "XCG(trừ GSM)": {"m": 0.6496, "y": 0.4605, "b": 0.6267, "b25": 0.4505}, "VCX Ô TÔ": {"m": 0.68, "y": 0.4918, "b": 0.8852, "b25": 0.5758}, "VCX Ô TÔ(trừ GSM)": {"m": 0.6339, "y": 0.4408, "b": 0.6774, "b25": 0.5656}, "TNDS ô tô và khác": {"m": 0.684, "y": 0.5111, "b": 0.5094, "b25": 0.2778}, "TNDS XM": {"m": null, "y": null, "b": 0.0, "b25": 0.0}, "XM KHÁC": {"m": null, "y": null, "b": -0.4851, "b25": 0.0191}}}, {"tt": "37", "n": "PVI Đông Nam Bộ", "p": {"XCG": {"m": 0.7943, "y": 0.6097, "b": 0.5266, "b25": 0.4567}, "XCG(trừ GSM)": {"m": 0.7943, "y": 0.6097, "b": 0.5266, "b25": 0.4567}, "VCX Ô TÔ": {"m": 0.7654, "y": 0.5997, "b": 0.5854, "b25": 0.5053}, "VCX Ô TÔ(trừ GSM)": {"m": 0.7654, "y": 0.5997, "b": 0.5854, "b25": 0.5053}, "TNDS ô tô và khác": {"m": 1.0775, "y": 0.7303, "b": 0.2791, "b25": 0.3127}, "TNDS XM": {"m": 0.43, "y": 0.3136, "b": -0.0455, "b25": 0.0046}, "XM KHÁC": {"m": 0.4381, "y": 0.3152, "b": -0.0782, "b25": -0.0197}}}, {"tt": "38", "n": "PVI Tây Nam", "p": {"XCG": {"m": 0.9116, "y": 0.6569, "b": 0.3345, "b25": 0.3301}, "XCG(trừ GSM)": {"m": 0.9116, "y": 0.6569, "b": 0.3345, "b25": 0.3301}, "VCX Ô TÔ": {"m": 0.9557, "y": 0.6701, "b": 0.6032, "b25": 0.5435}, "VCX Ô TÔ(trừ GSM)": {"m": 0.9557, "y": 0.6701, "b": 0.6032, "b25": 0.5435}, "TNDS ô tô và khác": {"m": 0.5352, "y": 0.3835, "b": 0.2745, "b25": 0.23}, "TNDS XM": {"m": 0.9623, "y": 0.7249, "b": 0.0001, "b25": -0.0017}, "XM KHÁC": {"m": 4.0403, "y": 3.0989, "b": 0.0038, "b25": 0.0099}}}, {"tt": "39", "n": "PVI Cửu Long", "p": {"XCG": {"m": 0.6671, "y": 0.4874, "b": 0.4237, "b25": 0.2401}, "XCG(trừ GSM)": {"m": 0.6671, "y": 0.4874, "b": 0.4237, "b25": 0.2401}, "VCX Ô TÔ": {"m": 0.7472, "y": 0.5448, "b": 0.456, "b25": 0.2757}, "VCX Ô TÔ(trừ GSM)": {"m": 0.7472, "y": 0.5448, "b": 0.456, "b25": 0.2757}, "TNDS ô tô và khác": {"m": 0.5123, "y": 0.3731, "b": 0.3434, "b25": 0.1874}, "TNDS XM": {"m": 0.3348, "y": 0.2753, "b": 0.0, "b25": -0.0853}, "XM KHÁC": {"m": null, "y": null, "b": 0.0, "b25": -0.0669}}}, {"tt": "40", "n": "PVI Cà Mau", "p": {"XCG": {"m": 0.77, "y": 0.5977, "b": 0.7664, "b25": 0.5084}, "XCG(trừ GSM)": {"m": 0.7421, "y": 0.5608, "b": 0.5976, "b25": 0.4872}, "VCX Ô TÔ": {"m": 0.6877, "y": 0.5403, "b": 1.0391, "b25": 0.6473}, "VCX Ô TÔ(trừ GSM)": {"m": 0.6352, "y": 0.4817, "b": 0.838, "b25": 0.6604}, "TNDS ô tô và khác": {"m": 0.7827, "y": 0.5859, "b": 0.3457, "b25": 0.4829}, "TNDS XM": {"m": 1.7432, "y": 1.3074, "b": 0.0637, "b25": 0.0531}, "XM KHÁC": {"m": 0.902, "y": 0.6765, "b": 0.0322, "b25": 0.0446}}}, {"tt": "41", "n": "PVI Đồng Khởi", "p": {"XCG": {"m": 0.6777, "y": 0.5009, "b": 0.4249, "b25": 0.278}, "XCG(trừ GSM)": {"m": 0.6777, "y": 0.5009, "b": 0.4249, "b25": 0.278}, "VCX Ô TÔ": {"m": 0.6717, "y": 0.4976, "b": 0.4599, "b25": 0.2982}, "VCX Ô TÔ(trừ GSM)": {"m": 0.6717, "y": 0.4976, "b": 0.4599, "b25": 0.2982}, "TNDS ô tô và khác": {"m": 0.7214, "y": 0.5197, "b": 0.0926, "b25": 0.1015}, "TNDS XM": {"m": 1.4724, "y": 1.1779, "b": 0.0, "b25": 0.0}, "XM KHÁC": {"m": null, "y": null, "b": 0.0, "b25": 0.0}}}, {"tt": "42", "n": "PVI Tây Ninh", "p": {"XCG": {"m": 0.5525, "y": 0.3635, "b": 0.1981, "b25": null}, "XCG(trừ GSM)": {"m": 0.5525, "y": 0.3635, "b": 0.1981, "b25": null}, "VCX Ô TÔ": {"m": 0.6577, "y": 0.4299, "b": 0.2126, "b25": null}, "VCX Ô TÔ(trừ GSM)": {"m": 0.6577, "y": 0.4299, "b": 0.2126, "b25": null}, "TNDS ô tô và khác": {"m": 0.3629, "y": 0.246, "b": 0.1425, "b25": null}, "TNDS XM": {"m": 0.07, "y": 0.0411, "b": 0.0, "b25": null}, "XM KHÁC": {"m": null, "y": null, "b": 0.0, "b25": null}}}, {"tt": "43", "n": "PVI Đồng Tháp", "p": {"XCG": {"m": 0.7672, "y": 0.5474, "b": 0.2475, "b25": null}, "XCG(trừ GSM)": {"m": 0.7672, "y": 0.5474, "b": 0.2475, "b25": null}, "VCX Ô TÔ": {"m": 0.776, "y": 0.5613, "b": 0.2766, "b25": null}, "VCX Ô TÔ(trừ GSM)": {"m": 0.776, "y": 0.5613, "b": 0.2766, "b25": null}, "TNDS ô tô và khác": {"m": 1.0046, "y": 0.7032, "b": 0.2675, "b25": null}, "TNDS XM": {"m": 0.4308, "y": 0.3015, "b": 0.0, "b25": null}, "XM KHÁC": {"m": 0.4052, "y": 0.2837, "b": 0.0353, "b25": null}}}, {"tt": "44", "n": "PVI An Giang", "p": {"XCG": {"m": 0.348, "y": 0.2592, "b": 0.129, "b25": null}, "XCG(trừ GSM)": {"m": 0.348, "y": 0.2592, "b": 0.129, "b25": null}, "VCX Ô TÔ": {"m": 0.2884, "y": 0.2163, "b": 0.1873, "b25": null}, "VCX Ô TÔ(trừ GSM)": {"m": 0.2884, "y": 0.2163, "b": 0.1873, "b25": null}, "TNDS ô tô và khác": {"m": 0.2919, "y": 0.2159, "b": 0.1861, "b25": null}, "TNDS XM": {"m": 0.6455, "y": 0.4704, "b": 0.0, "b25": null}, "XM KHÁC": {"m": 0.6037, "y": 0.4449, "b": 0.0, "b25": null}}}, {"tt": "45", "n": "PVI Digital", "p": {"XCG": {"m": 1.3165, "y": 0.9586, "b": 0.1385, "b25": 0.0424}, "XCG(trừ GSM)": {"m": 1.3165, "y": 0.9586, "b": 0.1385, "b25": 0.0424}, "VCX Ô TÔ": {"m": 0.4596, "y": 0.3145, "b": 0.2774, "b25": 0.7127}, "VCX Ô TÔ(trừ GSM)": {"m": 0.4596, "y": 0.3145, "b": 0.2774, "b25": 0.7127}, "TNDS ô tô và khác": {"m": 1.6327, "y": 1.1914, "b": 0.1854, "b25": 0.0619}, "TNDS XM": {"m": 1.1461, "y": 0.8596, "b": 0.0013, "b25": -0.0}, "XM KHÁC": {"m": 1.6886, "y": 1.1257, "b": 0.0138, "b25": 0.0133}}}, {"tt": "46", "n": "PVI Phía Nam", "p": {"XCG": {"m": 17.1832, "y": 17.1832, "b": 0.1014, "b25": 0.4141}, "XCG(trừ GSM)": {"m": 17.1832, "y": 17.1832, "b": 0.1014, "b25": 0.4141}, "VCX Ô TÔ": {"m": 4.1057, "y": 4.1057, "b": 0.4765, "b25": 0.4968}, "VCX Ô TÔ(trừ GSM)": {"m": 4.1057, "y": 4.1057, "b": 0.4765, "b25": 0.4968}, "TNDS ô tô và khác": {"m": null, "y": null, "b": 0.0, "b25": 0.6929}, "TNDS XM": {"m": null, "y": null, "b": 0.0, "b25": 0.0196}, "XM KHÁC": {"m": null, "y": null, "b": -1.3451, "b25": 0.0}}}, {"tt": "", "n": "BH PVI", "p": {"XCG": {"m": 0.8957, "y": 0.6622, "b": 0.507, "b25": 0.4091}, "XCG(trừ GSM)": {"m": 0.8877, "y": 0.6432, "b": 0.4388, "b25": 0.3957}, "VCX Ô TÔ": {"m": 0.8363, "y": 0.6175, "b": 0.6906, "b25": 0.5345}, "VCX Ô TÔ(trừ GSM)": {"m": 0.8163, "y": 0.5841, "b": 0.601, "b25": 0.5314}, "TNDS ô tô và khác": {"m": 1.0167, "y": 0.7542, "b": 0.2577, "b25": 0.2055}, "TNDS XM": {"m": 0.9374, "y": 0.7016, "b": 0.0156, "b25": 0.0069}, "XM KHÁC": {"m": 1.1, "y": 0.7804, "b": -0.0172, "b25": 0.0176}}}, {"tt": "", "n": "TỔNG (GỒM SOUTH + DIGITAL)", "p": {"XCG": {"m": 0.9046, "y": 0.6685, "b": 0.4958, "b25": 0.3959}, "XCG(trừ GSM)": {"m": 0.8973, "y": 0.6503, "b": 0.429, "b25": 0.3819}, "VCX Ô TÔ": {"m": 0.8347, "y": 0.6161, "b": 0.6895, "b25": 0.5347}, "VCX Ô TÔ(trừ GSM)": {"m": 0.8145, "y": 0.5827, "b": 0.6, "b25": 0.5316}, "TNDS ô tô và khác": {"m": 1.0409, "y": 0.7717, "b": 0.2532, "b25": 0.1976}, "TNDS XM": {"m": 0.9667, "y": 0.7236, "b": 0.0134, "b25": 0.0045}, "XM KHÁC": {"m": 1.107, "y": 0.7848, "b": -0.0168, "b25": 0.0174}}}], "asOf": "2026-09-20T00:00:00"};
+let RAW = null, PRODS = [];
+const EXCLUDE = CONFIG.EXCLUDE;
+let product = null, sortBy = "plan", period = "m", query = "";
+let asOf = new Date(), start = new Date(asOf.getFullYear(),0,1), end = new Date(asOf.getFullYear(),11,31), timePct = 0;
+let units = [], bh = null;
+
+const fmt = (v, d=1) => v == null ? "—" : (v*100).toLocaleString("vi-VN",{minimumFractionDigits:d,maximumFractionDigits:d}) + "%";
+const pts = v => (v*100).toLocaleString("vi-VN",{minimumFractionDigits:1,maximumFractionDigits:1});
+const $ = id => document.getElementById(id);
+const perLbl = () => period==="m" ? "lũy kế tháng" : "cả năm";
+const planOK = u => u[period] != null;
+const lossOK = u => u.m != null && u.b != null && u.b >= 0;
+
+function load(){
+  const pick = r => ({n:r.n, ...r.p[product]});
+  units = RAW.rows.filter(r => r.tt && !EXCLUDE.includes(r.n)).map(pick);
+  bh = pick(RAW.rows.find(r => r.n === "BH PVI"));
+}
+
+/* product selects */
+["prodTop","prodBoard"].forEach(id=>{
+  $(id).addEventListener("change",e=>{product=e.target.value; ["prodTop","prodBoard"].forEach(x=>$(x).value=product); updateAll();});
+});
+function fillProducts(){
+  ["prodTop","prodBoard"].forEach(id=>{$(id).innerHTML=PRODS.map(p=>`<option value="${p}">${p}</option>`).join("");});
+  if(!PRODS.includes(product)) product=PRODS[0];
+  ["prodTop","prodBoard"].forEach(x=>$(x).value=product);
+}
+
+/* track */
+function setDates(){
+  start=new Date(asOf.getFullYear(),0,1); end=new Date(asOf.getFullYear(),11,31);
+  timePct=Math.max(0,Math.min(1,(asOf-start)/(end-start)));
+  $("timeline").style.left=(timePct*100)+"%";
+  $("tlLabel").textContent="Thời gian đã qua "+fmt(timePct,0);
+}
+function drawTrack(){
+  const p=Math.max(0,Math.min(bh.y??0,1));
+  $("carLabel").textContent=`BH PVI đạt ${fmt(bh.y)} kế hoạch năm ${product}`;
+  requestAnimationFrame(()=>setTimeout(()=>{$("fill").style.width=(p*100)+"%";$("car").style.left=(p*100)+"%";},60));
+}
+
+function drawKpis(){
+  const r=units.filter(u=>u.m!=null), hit=r.filter(u=>u.m>=1).length, hitY=units.filter(u=>u.y!=null&&u.y>=1).length;
+  const d=(bh.b!=null&&bh.b25!=null)?bh.b-bh.b25:null;
+  $("unitChip").textContent=units.length+" đơn vị";
+  $("sprintTxt").textContent="Sản phẩm "+product;
+  $("kpis").innerHTML=`
+  <div class="kpi"><div class="k">Hoàn thành KH lũy kế tháng</div><div class="v">${fmt(bh.m)}</div><div class="s">BH PVI, không gồm South và Digital</div></div>
+  <div class="kpi"><div class="k">Hoàn thành KH năm</div><div class="v">${fmt(bh.y)}</div><div class="s">Tiến độ thời gian: ${fmt(timePct,0)}</div></div>
+  <div class="kpi"><div class="k">Tỷ lệ bồi thường gồm DP</div><div class="v">${fmt(bh.b)}</div><div class="s">${d==null?"":`<span class="${d>0?'up':'down'}">${d>0?'+':''}${pts(d)} điểm</span> so với 2025`}</div></div>
+  <div class="kpi"><div class="k">Đơn vị vượt KH lũy kế</div><div class="v">${hit}<small style="font-size:18px;color:var(--muted)">/${r.length}</small></div><div class="s">${hitY} đơn vị đã vượt KH cả năm${r.length<units.length?` · ${units.length-r.length} đơn vị chưa có KH`:""}</div></div>`;
+}
+
+function rankPlan(){return units.filter(planOK).sort((a,b)=>b[period]-a[period]||a.b-b.b);}
+function rankLoss(){return units.filter(lossOK).sort((a,b)=>a.b-b.b||(b.m??0)-(a.m??0));}
+
+function drawTicker(){
+  const p=rankPlan(), l=rankLoss(), avg=bh.b;
+  const both=units.filter(u=>u.m!=null&&u.m>=1&&lossOK(u)&&u.b<avg);
+  const worst=[...units].filter(lossOK).sort((a,b)=>b.b-a.b).slice(0,3);
+  const it=[`📦 Sản phẩm: <b>${product}</b>`];
+  if(p[0]) it.push(`🏁 Dẫn đầu HTKH ${perLbl()}: <b>${p[0].n}</b> ${fmt(p[0][period],0)}`);
+  if(p[1]) it.push(`🥈 <b>${p[1].n}</b> ${fmt(p[1][period],0)}`);
+  if(p[2]) it.push(`🥉 <b>${p[2].n}</b> ${fmt(p[2][period],0)}`);
+  if(l[0]) it.push(`🛡️ Bồi thường thấp nhất: <b>${l[0].n}</b> ${fmt(l[0].b)}`);
+  it.push(`⭐ Vượt KH và bồi thường dưới bình quân: <b>${both.length} đơn vị</b>`);
+  if(worst.length) it.push(`⚠️ Bồi thường cao nhất: ${worst.map(u=>`<b>${u.n}</b> ${fmt(u.b,0)}`).join(", ")}`);
+  it.push(`🚗 BH PVI: <b>${fmt(bh.m)}</b> KH lũy kế · TLBT <b>${fmt(bh.b)}</b>`);
+  const s=it.map(x=>`<span>${x}</span>`).join(""); $("ticker").innerHTML=s+s;
+}
+
+function drawPodiums(){
+  $("podPlanHint").textContent=`% hoàn thành kế hoạch ${perLbl()} · ${product}`;
+  $("podSub").textContent=`Ba đơn vị dẫn đầu mỗi tiêu chí của sản phẩm ${product}. Bục kế hoạch đổi theo lựa chọn lũy kế tháng hoặc cả năm ở bảng xếp hạng bên dưới.`;
+  const medals=["🥇","🥈","🥉"];
+  const build=(list,val)=>[1,0,2].map(i=>{const u=list[i];
+    if(!u) return `<div class="place p${i+1} none"><div class="medal" aria-hidden="true">${medals[i]}</div><div class="who">Chưa có</div><div class="val">—</div><div class="step">${i+1}</div></div>`;
+    return `<div class="place p${i+1}"><div class="medal" aria-hidden="true">${medals[i]}</div><div class="who">${u.n}</div><div class="val">${val(u)}</div><div class="step" aria-label="Hạng ${i+1}">${i+1}</div></div>`;}).join("");
+  $("podPlan").innerHTML=build(rankPlan(),u=>fmt(u[period]));
+  $("podLoss").innerHTML=build(rankLoss(),u=>fmt(u.b));
+}
+
+function render(){
+  $("hPlan").textContent="% hoàn thành KH "+perLbl();
+  const ranked = sortBy==="plan"?rankPlan():rankLoss();
+  const unr = units.filter(u=>!ranked.includes(u)).sort((a,b)=>a.n.localeCompare(b.n,"vi"));
+  ranked.forEach((u,i)=>u._rank=i+1); unr.forEach(u=>u._rank=null);
+  $("boardTitle").textContent=(sortBy==="plan"?"Xếp hạng theo hoàn thành kế hoạch":"Xếp hạng theo tỷ lệ bồi thường")+" · "+product;
+  $("boardSub").textContent = sortBy==="plan"
+    ? `Từ cao đến thấp, theo kế hoạch ${perLbl()}. Vạch đứng trên thanh là mốc 100%.`
+    : `Từ thấp đến cao, tỷ lệ bồi thường 2026 gồm dự phòng. Bình quân BH PVI: ${fmt(bh.b)}.`;
+  const q=query.trim().toLowerCase(), f=l=>q?l.filter(u=>u.n.toLowerCase().includes(q)):l;
+  const R=f(ranked), U=f(unr), scale=2;
+  const row=(u,isTotal)=>{
+    const v=u[period], w=v==null?0:Math.min(Math.max(v,0)/scale,1)*100, capped=v!=null&&v>scale;
+    const d=(u.b25==null||u.b==null)?null:u.b-u.b25, top=!isTotal&&u._rank&&u._rank<=3;
+    return `<div class="row${isTotal?' total':''}${top?' top':''}${!isTotal&&!u._rank?' unr':''}" role="row">
+      <span class="rank">${isTotal||!u._rank?'':u._rank}</span>
+      <span class="name">${u.n}</span>
+      <span class="barcell"><span class="bar"><i class="${v!=null&&v>=1?'hit':''}" style="width:${w}%"></i><span class="goal" style="left:50%"></span></span><span class="pct">${v==null?'Chưa có KH':fmt(v)}${capped?'<span class="over"> ▶</span>':''}</span></span>
+      <span class="num c-b"><span class="loss${u.b>0.7?' hi':''}">${fmt(u.b)}</span>${d==null?'':`<span class="delta ${d>0?'up':'down'}">${d>0?'▲':'▼'} ${pts(Math.abs(d))} điểm</span>`}</span>
+      <span class="num c-other">${fmt(u.b25)}</span></div>`;};
+  let h=R.map(u=>row(u,false)).join("");
+  if(U.length) h+=`<div class="sep">Không xếp hạng: ${sortBy==="plan"?"chưa có kế hoạch":"chưa có kế hoạch hoặc tỷ lệ bồi thường âm"} (${U.length} đơn vị)</div>`+U.map(u=>row(u,false)).join("");
+  if(!q) h+=row(bh,true);
+  $("rows").innerHTML = (R.length||U.length) ? h : `<div class="empty">Không có đơn vị nào khớp với "${query}". Thử gõ một phần tên, ví dụ "Sài Gòn".</div>`;
+}
+
+function drawMatrix(){
+  const box=$("matrix"), tip=$("tip"); box.querySelector("svg")?.remove(); tip.style.opacity=0;
+  const AVG=bh.b, pts_=units.filter(u=>u[period]!=null&&lossOK(u));
+  const W=900,H=460,L=56,R=20,T=20,B=48,xMax=2.0,yMax=1.2;
+  const X=v=>L+Math.min(Math.max(v,0),xMax)/xMax*(W-L-R), Y=v=>T+(1-Math.min(v,yMax)/yMax)*(H-T-B);
+  const cs=getComputedStyle(document.documentElement), c=n=>cs.getPropertyValue(n).trim();
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Biểu đồ phân tán hoàn thành kế hoạch và tỷ lệ bồi thường, sản phẩm ${product}">`;
+  if(AVG!=null&&AVG>0) s+=`<rect x="${X(1)}" y="${Y(AVG)}" width="${X(xMax)-X(1)}" height="${H-B-Y(AVG)}" fill="${c('--good')}" opacity=".08"/>`;
+  for(let x=0;x<=2.001;x+=0.25) s+=`<line x1="${X(x)}" x2="${X(x)}" y1="${T}" y2="${H-B}" stroke="${c('--line')}"/><text x="${X(x)}" y="${H-B+18}" font-size="12" fill="${c('--muted')}" text-anchor="middle">${Math.round(x*100)}%</text>`;
+  for(let y=0;y<=1.2001;y+=0.2) s+=`<line x1="${L}" x2="${W-R}" y1="${Y(y)}" y2="${Y(y)}" stroke="${c('--line')}"/><text x="${L-8}" y="${Y(y)+4}" font-size="12" fill="${c('--muted')}" text-anchor="end">${Math.round(y*100)}%</text>`;
+  s+=`<line x1="${X(1)}" x2="${X(1)}" y1="${T}" y2="${H-B}" stroke="${c('--orange')}" stroke-width="2" stroke-dasharray="5 4"/>`;
+  if(AVG!=null&&AVG>0) s+=`<line x1="${L}" x2="${W-R}" y1="${Y(AVG)}" y2="${Y(AVG)}" stroke="${c('--blue')}" stroke-width="2" stroke-dasharray="5 4"/><text x="${W-R-4}" y="${Y(AVG)-6}" font-size="12" fill="${c('--blue')}" text-anchor="end">Bình quân BH PVI ${fmt(AVG)}</text>`;
+  s+=`<text x="${W-R-4}" y="${H-B-8}" font-size="13" font-weight="700" fill="${c('--good')}" text-anchor="end">Vượt KH, bồi thường thấp</text>`;
+  s+=`<text x="${(L+W-R)/2}" y="${H-6}" font-size="12.5" fill="${c('--muted')}" text-anchor="middle">% hoàn thành kế hoạch ${perLbl()}</text>`;
+  s+=`<text transform="translate(14 ${(T+H-B)/2}) rotate(-90)" font-size="12.5" fill="${c('--muted')}" text-anchor="middle">Tỷ lệ bồi thường gồm DP 2026</text>`;
+  pts_.forEach((u,i)=>{const v=u[period], good=v>=1&&u.b<AVG, bad=u.b>0.7, col=good?c('--good'):bad?c('--bad'):c('--blue');
+    s+=`<circle data-i="${i}" cx="${X(v)}" cy="${Y(u.b)}" r="7" fill="${col}" fill-opacity=".85" stroke="${c('--panel')}" stroke-width="1.5" tabindex="0" style="cursor:pointer"><title>${u.n}</title></circle>`;});
+  s+=`</svg>`; box.insertAdjacentHTML("beforeend",s);
+  const show=el=>{const u=pts_[el.dataset.i],r=box.getBoundingClientRect(),e=el.getBoundingClientRect();
+    tip.innerHTML=`<b>${u.n}</b><br>HTKH ${fmt(u[period])} · TLBT ${fmt(u.b)}`;
+    tip.style.left=Math.max(0,Math.min(e.left-r.left+12,r.width-200))+"px"; tip.style.top=(e.top-r.top-46)+"px"; tip.style.opacity=1;};
+  box.querySelectorAll("circle").forEach(el=>{["mouseenter","focus","click"].forEach(ev=>el.addEventListener(ev,()=>show(el)));["mouseleave","blur"].forEach(ev=>el.addEventListener(ev,()=>tip.style.opacity=0));});
+  const good=pts_.filter(u=>u[period]>=1&&u.b<AVG).map(u=>u.n.replace("PVI ",""));
+  const over=pts_.filter(u=>u[period]>xMax).map(u=>`${u.n.replace("PVI ","")} ${fmt(u[period],0)}`);
+  $("legend").innerHTML=`<span><span class="dot"></span>Vượt KH và bồi thường dưới bình quân (${good.length}): ${good.join(", ")||"chưa có"}</span><span><span class="dot" style="background:var(--bad)"></span>Tỷ lệ bồi thường trên 70%</span><span><span class="dot" style="background:var(--blue)"></span>Còn lại</span>${over.length?`<span>▶ Vượt 200%, đặt ở mép phải: ${over.join(", ")}</span>`:""}`;
+}
+
+function updateAll(){ load(); drawTrack(); drawKpis(); drawTicker(); drawPodiums(); render(); drawMatrix(); }
+
+document.querySelectorAll("[data-sort]").forEach(b=>b.addEventListener("click",()=>{sortBy=b.dataset.sort;document.querySelectorAll("[data-sort]").forEach(x=>x.setAttribute("aria-pressed",x===b));render();}));
+document.querySelectorAll("[data-period]").forEach(b=>b.addEventListener("click",()=>{period=b.dataset.period;document.querySelectorAll("[data-period]").forEach(x=>x.setAttribute("aria-pressed",x===b));drawTicker();drawPodiums();render();drawMatrix();}));
+$("search").addEventListener("input",e=>{query=e.target.value;render();});
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change",drawMatrix);
+/* ---------- Đọc Google Sheet ---------- */
+function parseCSV(text){
+  const rows=[]; let row=[], cell="", q=false;
+  for(let i=0;i<text.length;i++){
+    const ch=text[i];
+    if(q){ if(ch==='"'){ if(text[i+1]==='"'){cell+='"';i++;} else q=false; } else cell+=ch; }
+    else if(ch==='"') q=true;
+    else if(ch===','){ row.push(cell); cell=""; }
+    else if(ch==='\n'){ row.push(cell); rows.push(row); row=[]; cell=""; }
+    else if(ch!=='\r') cell+=ch;
+  }
+  if(cell!==""||row.length){ row.push(cell); rows.push(row); }
+  return rows;
+}
+// "95.18%", "95,18%", "1,718.32%", "1.718,32%", "0.9518" -> 0.9518 ; rỗng -> null
+function toNum(s){
+  if(s==null) return null; s=String(s).trim().replace(/\s/g,"");
+  if(s===""||s==="-"||s==="#DIV/0!"||s.startsWith("#")) return null;
+  const pct=s.endsWith("%"); if(pct) s=s.slice(0,-1);
+  const lc=s.lastIndexOf(","), ld=s.lastIndexOf(".");
+  if(lc>-1&&ld>-1){ s = lc>ld ? s.replace(/\./g,"").replace(",",".") : s.replace(/,/g,""); }
+  else if(lc>-1){ s=s.replace(",","."); }
+  const v=parseFloat(s); if(isNaN(v)) return null;
+  return +(pct? v/100 : v).toFixed(6);
+}
+function sheetToData(rows){
+  const hi=rows.findIndex(r=>r.some(c=>c.trim()==="Đơn vị"));
+  if(hi<0) throw new Error("Không tìm thấy dòng tiêu đề có chữ 'Đơn vị'");
+  const nameCol=rows[hi].findIndex(c=>c.trim()==="Đơn vị");
+  const ttCol=rows[hi].findIndex(c=>c.trim()==="TT");
+  const prodRow=rows[hi], metRow=rows[hi+1]||[];
+  const prods=[], groups=[];
+  for(let c=nameCol+1;c<prodRow.length;c++){
+    const p=prodRow[c].trim(); if(!p) continue;
+    const idx={}; for(let k=c;k<c+4;k++){ const m=(metRow[k]||"").toLowerCase();
+      if(m.includes("lk")) idx.m=k; else if(m.includes("năm")) idx.y=k;
+      else if(m.includes("2025")) idx.b25=k; else if(m.includes("tlbt")) idx.b=k; }
+    if(idx.m==null){ idx.m=c; idx.y=c+1; idx.b=c+2; idx.b25=c+3; }
+    prods.push(p); groups.push([p,idx]);
+  }
+  const out=[];
+  for(let r=hi+2;r<rows.length;r++){
+    const n=(rows[r][nameCol]||"").trim(); if(!n) continue;
+    const d={tt: ttCol>-1 ? (rows[r][ttCol]||"").trim() : "", n, p:{}};
+    groups.forEach(([p,ix])=>{ d.p[p]={m:toNum(rows[r][ix.m]),y:toNum(rows[r][ix.y]),b:toNum(rows[r][ix.b]),b25:toNum(rows[r][ix.b25])}; });
+    // dòng tổng không có số TT
+    if(!d.tt && n!==CONFIG.TOTAL_NAME && !/^t[ổo]ng/i.test(n)) d.tt="x";
+    out.push(d);
+  }
+  let asOfStr=null;
+  for(let r=0;r<hi;r++){ const m=rows[r].join(" ").match(/đến ngày\s*(\d{1,2})\/(\d{1,2})\/(\d{4})/i); if(m){asOfStr=m;break;} }
+  return {prods, rows:out, asOf: asOfStr ? new Date(+asOfStr[3],+asOfStr[2]-1,+asOfStr[1]) : null,
+          title: (rows[0]||[]).find(c=>c.trim())||""};
+}
+const pad=n=>String(n).padStart(2,"0"), dmy=d=>`${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()}`;
+
+async function loadData(){
+  let data, live=false, err=null;
+  if(CONFIG.SHEET_CSV_URL){
+    try{
+      const url=CONFIG.SHEET_CSV_URL+(CONFIG.SHEET_CSV_URL.includes("?")?"&":"?")+"t="+Date.now();
+      const res=await fetch(url,{cache:"no-store"}); if(!res.ok) throw new Error("HTTP "+res.status);
+      data=sheetToData(parseCSV(await res.text()));
+      if(!data.rows.length||!data.prods.length) throw new Error("Sheet không có dữ liệu");
+      live=true;
+    }catch(e){ err=e; console.error("Lỗi đọc Google Sheet:",e); }
+  }
+  if(!live){ data={...SAMPLE, asOf:new Date(SAMPLE.asOf)}; }
+  RAW=data; PRODS=data.prods; asOf=data.asOf||new Date();
+  if(!RAW.rows.some(r=>r.n===CONFIG.TOTAL_NAME)) RAW.rows.push({tt:"",n:CONFIG.TOTAL_NAME,p:Object.fromEntries(PRODS.map(p=>[p,{m:null,y:null,b:null,b25:null}]))});
+  $("periodTxt").textContent=`Kết quả theo đơn vị từ 01/01/${asOf.getFullYear()} đến ${dmy(asOf)}.`;
+  const now=new Date();
+  $("srcTxt").innerHTML = live
+    ? `Số liệu đến <b>${dmy(asOf)}</b> · tải lúc ${pad(now.getHours())}:${pad(now.getMinutes())}`
+    : (err ? `<b>Không đọc được Google Sheet</b>, đang hiện dữ liệu mẫu` : `Dữ liệu mẫu đến <b>${dmy(asOf)}</b>`);
+  $("srcDot").style.background = live ? "var(--good)" : "var(--orange)";
+  fillProducts(); setDates(); updateAll();
+}
+loadData();
+if(CONFIG.SHEET_CSV_URL && CONFIG.AUTO_REFRESH_MIN>0) setInterval(loadData, CONFIG.AUTO_REFRESH_MIN*60000);
+</script>
+</body>
+</html>
